@@ -37,4 +37,17 @@ router.delete('/:id', async (request, response) => {
   });
 });
 
+router.put('/:id', async (request, response) => {
+  const { id } = request.params;
+
+  const { title, description } = request.body;
+  const updateTask = { title, description }
+
+  const db = await connect();
+  await db.collection('tasks').updateOne({ _id: ObjectID(id) }, { $set: updateTask });
+  response.json({
+    message: `Tasks ${id} updated.`
+  });
+});
+
 export default router;
