@@ -10,4 +10,12 @@ router.get('/', async (request, response) => {
   response.json(result);
 });
 
+router.post('/', async (request, response) => {
+  const db = await connect();
+  const { title, description } = request.body;
+  const task = { title, description }
+  const result = await db.collection('tasks').insertOne(task);
+  response.json(result.ops[0]);
+});
+
 export default router;
